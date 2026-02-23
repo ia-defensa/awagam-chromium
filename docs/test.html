@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>AWAGAM Extension Test Page</title>
+		<link rel="stylesheet" href="../setup/default.css">
+		<link rel="stylesheet" href="../setup/basecoat.min.css">
+		<script src="../setup/tailwind.min.js"></script>
+	</head>
+	<body class="bg-gray-50 p-8 m-auto max-w-screen-lg text-gray-900">
+		<h1 class="font-bold mb-2 text-2xl text-gray-900">AWAGAM Extension Test Page</h1>
+		<div class="bg-blue-50 border-blue-500 border-l-4 mb-4 p-4 rounded-md">
+			<p class="mb-3"><strong>Instructions:</strong> Load this page with the AWAGAM extension enabled and <a href="https://codeberg.org/j9t/awagam/raw/branch/main/docs/test.json" target="_blank">test.json blocklist added</a> to test link highlighting functionality. Blocked links should appear with “🛑” icons.</p>
+			<p class="mb-2">No red and no broken image should show below this sentence.</p>
+			<img src="https://codeberg.org/j9t/awagam/raw/branch/main/docs/test.png" alt="">
+			<img src="https://codeberg.org/j9t/awagam/raw/branch/main/docs/test-2.png" alt="">
+			<img src="https://example.com/example.png" alt="">
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">TLD Tests (.example)</h2>
+			<ul class="list-none p-0">
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.example/">example.example</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://test.co.example">test.co.example</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://foo.bar.example/test">foo.bar.example/test</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">🎯 Specific Domain and Subdomain Tests</h2>
+			<ul class="list-none p-0">
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.com/">example.com</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://foo.example.com">foo.example.com</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.net">example.net</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.org">example.net</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.info/">example.info</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://foo.bar.example.org/">foo.bar.example.org</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://foo.example.it/">foo.example.it</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.it">example.it</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">Double TLD Tests</h2>
+			<ul class="list-none p-0">
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="http://example.com.tr" target="_blank">example.com.tr</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">Specific URL Tests</h2>
+			<ul class="list-none p-0">
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.info/foo.example">example.info/foo.example</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.com/events/foo">https://example.com/events/foo</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.de/foo/bar">https://example.de/foo/bar</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://foo.example.fr/test">https://foo.example.fr/test</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://www.gov.example/departments/education/">https://www.gov.example/departments/education/</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://test.example.foo.com">test.example.foo.com</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://not-example.com">not-rt.com</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://validator.w3.org/check?uri=https://example.com/" target="_blank">https://validator.w3.org/check?uri=https://example.com/</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://validator.w3.org/check?uri=https://test.example/" target="_blank">https://validator.w3.org/check?uri=https://test.example/</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">Control Tests</h2>
+			<ul class="list-none p-0">
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://google.com">Google</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://wikipedia.org">Wikipedia</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://github.com">GitHub</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+				<li class="bg-white mb-2 p-2 rounded-md"><a href="https://stackoverflow.com">Stack Overflow</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">🧭 Navigation Menu Test</h2>
+			<nav class="bg-gray-800 p-3 rounded-md">
+				<a href="https://google.com" class="hover:underline mx-4 text-white whitespace-nowrap">Home</a>
+				<a href="https://test.example" class="hover:underline mx-4 text-white whitespace-nowrap">Test.example (should be blocked)</a>
+				<a href="https://example.net" class="hover:underline mx-4 text-white whitespace-nowrap">example.net (should be blocked)</a>
+				<a href="https://wikipedia.org" class="hover:underline mx-4 text-white whitespace-nowrap">Wikipedia</a>
+				<a href="https://www.gov.example" class="hover:underline mx-4 text-white whitespace-nowrap">Gov.example (should be blocked)</a>
+			</nav>
+			<p class="mt-2 text-gray-600 text-sm">Navigation links should have red background highlighting when blocked</p>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">📄 In-Content Link Test</h2>
+			<div>
+				<p class="mb-3">This paragraph contains some inline links: <a href="https://google.com">Google</a>, <a href="https://example.com">example.com</a>, and <a href="https://wikipedia.org">Wikipedia</a>.</p>
+				<p>Here's another paragraph with <a href="https://github.com">GitHub</a> and <a href="https://example.info">example.info</a> links for testing.</p>
+			</div>
+		</div>
+		<div class="bg-blue-50 border-blue-500 border-l-4 mb-4 p-4 rounded-md">
+			<strong class="block mb-2">Expected behavior:</strong>
+			<ul class="list-disc pl-4">
+				<li>All blocked links show a "🛑" icon</li>
+				<li>Clicking blocked links should show an alert and prevent navigation</li>
+				<li>Links should have appropriate styling in different contexts (nav, content, etc.)</li>
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">🔄 Dynamic Content Test</h2>
+			<p class="mb-3">Click the button below to dynamically add links and test if they get properly highlighted:</p>
+			<button onclick="addDynamicLinks()" class="btn">Add dynamic links</button>
+			<div id="dynamic-content" class="mt-4"></div>
+		</div>
+		<script>
+			function addDynamicLinks() {
+				const container = document.getElementById('dynamic-content');
+				container.innerHTML = `
+					<h3 class="font-semibold mb-3 text-lg">Dynamically Added Links</h3>
+					<ul class="list-none p-0">
+						<li class="bg-white mb-2 p-2 rounded-md"><a href="https://new.example">New example site</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+						<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.com">Dynamic example site</a> <span class="italic text-gray-600 text-sm">→ Should show "🛑"</span></li>
+						<li class="bg-white mb-2 p-2 rounded-md"><a href="https://example.biz/">Another example site</a> <span class="italic text-gray-600 text-sm">→ Should be normal</span></li></li>
+					</ul>
+				`;
+			}
+		</script>
+	</body>
+</html>

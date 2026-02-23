@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# AWAGAM Pre-commit Hook
+# Place this file in .git/hooks/pre-commit and make it executable
+
+# Run blocklist validation
+./validate-blocklist.sh

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!-- @@ Tie to extension or delete? -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>AWAGAM URL Matching Test Page</title>
+		<link rel="stylesheet" href="../setup/default.css">
+		<link rel="stylesheet" href="../setup/basecoat.min.css">
+		<script src="../setup/tailwind.min.js"></script>
+		<style>
+			.test-case {
+				border-left: 4px solid #d1d5db;
+			}
+
+			.test-case.pass {
+				border-left-color: #10b981;
+			}
+
+			.test-case.fail {
+				border-left-color: #ef4444;
+			}
+
+			.pattern {
+				background: #e5e7eb;
+				border-radius: 3px;
+				font-family: monospace;
+				padding: 2px 6px;
+			}
+		</style>
+	</head>
+	<body class="bg-gray-50 p-8 m-auto max-w-screen-lg text-gray-900">
+		<h1 class="font-bold mb-2 text-2xl text-gray-900">AWAGAM URL Matching Test Page</h1>
+		<p class="mb-6 text-gray-600">Testing protocol-agnostic and wildcard URL matching</p>
+		<div id="results"></div>
+		<div id="summary" class="bg-blue-50 rounded-md font-semibold mt-8 p-4"></div>
+		<script>
+			// Match URL against pattern with wildcard support (same as content.js)
+			function matchesUrlPattern(url, pattern) {
+				// Auto-append wildcard to query parameter patterns (e.g., ?param= becomes ?param=*)
+				let normalizedPattern = pattern;
+				if (pattern.includes('=') && !pattern.endsWith('*')) {
+					const parts = pattern.split('=');
+					const lastPart = parts[parts.length - 1];
+					if (lastPart === '' || (!lastPart.includes('&') && !lastPart.includes('/'))) {
+						normalizedPattern = pattern + '*';
+					}
+				}
+
+				const escapedPattern = normalizedPattern
+					.replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+					.replace(/\*/g, '.*');
+				const regex = new RegExp(`^${escapedPattern}$`, 'i');
+				return regex.test(url);
+			}
+
+			// Test cases
+			const tests = [
+				{
+					name: 'Protocol-agnostic URLs',
+					tests: [
+						{ pattern: 'example.com/ads', url: 'https://example.com/ads', shouldMatch: true },
+						{ pattern: 'example.com/ads', url: 'http://example.com/ads', shouldMatch: true },
+						{ pattern: 'example.com/ads', url: 'https://example.com/other', shouldMatch: false },
+					]
+				},
+				{
+					name: 'Wildcard patterns',
+					tests: [
+						{ pattern: 'example.com/*?affiliate=', url: 'example.com/sports?affiliate=123', shouldMatch: true },
+						{ pattern: 'example.com/*?affiliate=', url: 'example.com/casino/slots?affiliate=abc', shouldMatch: true },
+						{ pattern: 'example.com/*?affiliate=', url: 'example.com/sports?ref=other', shouldMatch: false },
+						{ pattern: 'example.com/ads/*', url: 'example.com/ads/banner.jpg', shouldMatch: true },
+						{ pattern: 'example.com/ads/*', url: 'example.com/ads/path/to/file.js', shouldMatch: true },
+						{ pattern: 'example.com/ads/*', url: 'example.com/other/path', shouldMatch: false },
+					]
+				},
+				{
+					name: 'Query parameters',
+					tests: [
+						{ pattern: 'example.com/?utm_source=', url: 'example.com/?utm_source=twitter', shouldMatch: true },
+						{ pattern: 'example.com/?utm_source=', url: 'example.com/?other=param', shouldMatch: false },
+					]
+				},
+				{
+					name: 'Full URLs (with protocol)',
+					tests: [
+						{ pattern: 'https://example.com/page', url: 'https://example.com/page', shouldMatch: true },
+						{ pattern: 'https://example.com/page', url: 'http://example.com/page', shouldMatch: false },
+					]
+				},
+				{
+					name: 'Special characters in patterns',
+					tests: [
+						{ pattern: 'get-gx.co/*sub2=', url: 'get-gx.co/path?sub2=value', shouldMatch: true },
+						{ pattern: 'example.com/path?key=value', url: 'example.com/path?key=value', shouldMatch: true },
+					]
+				}
+			];
+
+			let totalTests = 0;
+			let passedTests = 0;
+			const resultsDiv = document.getElementById('results');
+
+			tests.forEach(group => {
+				const groupDiv = document.createElement('div');
+				groupDiv.innerHTML = `<h2 class="font-semibold mb-2 mt-8 pb-2 text-gray-700 text-xl">${group.name}</h3>`;
+
+				group.tests.forEach(test => {
+					totalTests++;
+					const urlWithoutProtocol = test.url.replace(/^https?:\/\//, '');
+					const patternHasProtocol = test.pattern.startsWith('http://') || test.pattern.startsWith('https://');
+
+					let matches;
+					if (patternHasProtocol) {
+						matches = matchesUrlPattern(test.url, test.pattern);
+					} else {
+						matches = matchesUrlPattern(urlWithoutProtocol, test.pattern);
+					}
+
+					const passed = matches === test.shouldMatch;
+					if (passed) passedTests++;
+
+					const testDiv = document.createElement('div');
+					testDiv.className = `test-case bg-white my-2 p-2 ${passed ? 'pass' : 'fail'}`;
+					testDiv.innerHTML = `
+						<div>${passed ? '✅' : '❌'} Pattern: <span class="pattern">${test.pattern}</span></div>
+						<div>URL: <span class="pattern">${test.url}</span></div>
+						<div>Expected: ${test.shouldMatch ? 'Match' : 'No match'} | Got: ${matches ? 'Match' : 'No match'}</div>
+					`;
+					groupDiv.appendChild(testDiv);
+				});
+
+				resultsDiv.appendChild(groupDiv);
+			});
+
+			// Summary
+			const summaryDiv = document.getElementById('summary');
+			const allPassed = passedTests === totalTests;
+			summaryDiv.innerHTML = `
+				<p>${allPassed ? '🎉' : '⚠️'} Test results: ${passedTests}/${totalTests} passed</p>
+				<p>${allPassed ? 'All URL matching tests passed' : 'Some tests failed—check implementation'}</p>
+			`;
+			summaryDiv.className = allPassed ? 'mt-8 p-4 bg-green-100 rounded-md text-green-800' : 'mt-8 p-4 bg-red-100 rounded-md text-red-800';
+		</script>
+	</body>
+</html>

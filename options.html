@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>AWAGAM Options</title>
+		<link rel="stylesheet" href="setup/default.css">
+		<link rel="stylesheet" href="setup/basecoat.min.css">
+		<script src="setup/tailwind.min.js"></script>
+		<style>
+			p.alert,
+			.modal.show {
+				display: block;
+			}
+
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			th,
+			td {
+				border-bottom: 1px solid #e5e7eb;
+				padding: 0.75rem 1rem;
+				text-align: left;
+			}
+
+			th {
+				background-color: #f9fafb;
+				color: #1f2937;
+				font-weight: 600;
+				position: sticky;
+				top: 0;
+			}
+
+			tr:hover {
+				background-color: #f9fafb;
+			}
+
+			.table-container a {
+				line-break: anywhere;
+			}
+
+			.status {
+				border-radius: 4px;
+				display: inline-block;
+				font-size: .75rem;
+				font-weight: 500;
+				max-width: 100%;
+				padding: .25rem .5rem;
+				text-transform: uppercase;
+				white-space: normal;
+				word-wrap: break-word;
+			}
+
+			.status.active {
+				background-color: #d1fae5;
+				color: #065f46;
+			}
+
+			.status.error {
+				background-color: #fee2e2;
+				color: #991b1b;
+			}
+
+			.status.pending {
+				background-color: #fef3c7;
+				color: #92400e;
+			}
+
+			.status.disabled {
+				background-color: #e5e7eb;
+				color: #4b5563;
+			}
+
+			.modal {
+				animation: fadeIn 0.2s;
+				background-color: rgba(0, 0, 0, 0.5);
+				display: none;
+				height: 100%;
+				left: 0;
+				position: fixed;
+				top: 0;
+				width: 100%;
+				z-index: 1000;
+			}
+
+			.modal-content {
+				animation: slideIn 0.3s;
+				background-color: #fff;
+				border-radius: .5rem;
+				margin: 5% auto;
+				max-height: 90vh;
+				max-width: 600px;
+				overflow-y: auto;
+				width: 90%;
+			}
+
+			.close {
+				align-items: center;
+				background: none;
+				border: none;
+				color: #9ca3af;
+				cursor: pointer;
+				display: flex;
+				font-size: 1.75rem;
+				font-weight: bold;
+				justify-content: center;
+				padding: 0;
+				position: relative;
+				top: -.25rem;
+			}
+
+			.close:hover {
+				color: #1f2937;
+			}
+
+			.checkbox-label {
+				align-items: center;
+				cursor: pointer;
+				display: flex;
+			}
+
+			.checkbox-label input[type="checkbox"] {
+				margin-right: .625rem;
+			}
+
+			@keyframes fadeIn {
+
+				from {
+					opacity: 0;
+				}
+
+				to {
+					opacity: 1;
+				}
+
+			}
+
+			@keyframes slideIn {
+
+				from {
+					transform: translateY(-50px);
+					opacity: 0;
+				}
+
+				to {
+					transform: translateY(0);
+					opacity: 1;
+				}
+
+			}
+
+			.loading {
+				opacity: .6;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body class="bg-gray-50 p-8 text-gray-900">
+		<div class="bg-white mx-auto p-4 rounded-md shadow-sm">
+			<h1 class="font-bold mb-2 text-2xl text-gray-900">AWAGAM Options</h1>
+			<p class="mb-8 text-sm">Add, update, and remove blocklists, and import and export your configurations</p>
+			<section class="flex flex-wrap gap-4 mb-4">
+				<button id="addBlocklistBtn" class="btn">Add blocklist</button>
+				<button id="refreshAllBtn" class="btn-secondary">Refresh all</button>
+				<button id="importConfigBtn" class="btn-secondary">Import config</button>
+				<button id="exportConfigBtn" class="btn-secondary">Export config</button>
+			</section>
+			<section class="gap-4 grid grid-cols-1 mb-4 md:grid-cols-2">
+				<div class="bg-white border border-gray-200 p-6 rounded-md text-center">
+					<h2 class="font-semibold mb-2 text-gray-900 text-lg">Blocklists</h2>
+					<p id="externalStats" class="text-gray-600 text-sm">Loading…</p>
+				</div>
+				<div class="bg-white border border-gray-200 p-6 rounded-md text-center">
+					<h2 class="font-semibold mb-2 text-gray-900 text-lg">Storage Usage</h2>
+					<p id="storageStats" class="text-gray-600 text-sm">Loading…</p>
+				</div>
+			</section>
+			<div id="limitWarning" class="bg-yellow-50 border border-yellow-400 mb-4 p-4 rounded-md" style="display: none;">
+				<h2 class="font-semibold mb-2 text-lg text-yellow-800">⚠️ Browser Limit Exceeded</h2>
+				<p id="limitWarningMessage" class="mb-2 text-sm text-yellow-800">Your total rules exceed your browser's limit. Some blocklists may not work properly.</p>
+				<p class="text-sm text-yellow-800">Consider disabling blocklists or using smaller lists.</p>
+			</div>
+			<section class="bg-white border border-gray-200 p-6 rounded-md">
+				<h2 class="font-semibold mb-2 pb-2 text-gray-700 text-xl">Blocklists</h2>
+				<div class="overflow-x-auto table-container">
+					<table id="blocklistTable">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Status</th>
+								<th>URL</th>
+								<th>Rules</th>
+								<th>Last Updated</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Populated by JavaScript -->
+						</tbody>
+					</table>
+					<div id="emptyState" class="py-16 text-center text-gray-500" style="display: none;">
+						<p class="mb-5 text-base">No blocklists configured yet.</p>
+						<button class="btn" id="addFirstBlocklistBtn">Add your first blocklist</button>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- Add/edit modal -->
+		<div id="addEditModal" class="modal">
+			<div class="modal-content">
+				<div class="border-gray-200 flex items-center justify-between pt-6 px-6">
+					<h2 id="modalTitle" class="font-semibold text-gray-900 text-lg">Add Blocklist</h2>
+					<button class="close" id="closeAddModalBtn">×</button>
+				</div>
+				<form id="blocklistForm" class="form p-6">
+					<div class="mb-5">
+						<label for="blocklistName" class="block font-medium mb-2 text-gray-900">Name *</label>
+						<input type="text" id="blocklistName" name="name" required maxlength="100" placeholder="e.g., My Custom Blocklist">
+						<small class="block mt-1 text-gray-600 text-xs">A friendly name to identify this blocklist</small>
+					</div>
+					<div class="mb-5">
+						<label for="blocklistUrl" class="block font-medium mb-2 text-gray-900">URL *</label>
+						<input type="url" id="blocklistUrl" name="url" required placeholder="https://example.com/blocklist.json">
+						<small class="block mt-1 text-gray-600 text-xs">HTTPS URL to the blocklist file</small>
+					</div>
+					<div class="mb-5">
+						<label for="updateInterval" class="block font-medium mb-2 text-gray-900">Update Interval</label>
+						<select id="updateInterval" name="updateInterval">
+							<option value="3600000">1 hour</option>
+							<option value="21600000">6 hours</option>
+							<option value="43200000">12 hours</option>
+							<option value="86400000" selected>1 day</option>
+							<option value="604800000">1 week</option>
+						</select>
+						<small class="block mt-1 text-gray-600 text-xs">How often to check for updates</small>
+					</div>
+					<div class="mb-4">
+						<label class="checkbox-label font-medium">
+							<input type="checkbox" id="blocklistEnabled" name="enabled" checked>
+							Enable this blocklist
+						</label>
+					</div>
+					<div class="flex gap-4 justify-end pt-4">
+						<button type="button" class="btn-secondary" id="cancelAddBtn">Cancel</button>
+						<button type="submit" class="btn">Save blocklist</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- Delete confirmation modal -->
+		<div id="deleteModal" class="modal">
+			<div class="modal-content">
+				<div class="border-gray-200 flex items-center justify-between pt-6 px-6">
+					<h2 class="font-semibold text-gray-900 text-lg">Confirm Deletion</h2>
+					<button class="close" id="closeDeleteModalBtn">×</button>
+				</div>
+				<div class="mb-4 pt-6 px-6">
+					<p class="mb-4 text-sm">Are you sure you want to delete “<span id="deleteBlocklistName"></span>”?</p>
+					<p class="alert">This action cannot be undone.</p>
+				</div>
+				<div class="flex gap-4 justify-end p-6">
+					<button type="button" class="btn-secondary" id="cancelDeleteBtn">Cancel</button>
+					<button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+				</div>
+			</div>
+		</div>
+		<!-- Import modal -->
+		<div id="importModal" class="modal">
+			<div class="modal-content">
+				<div class="border-gray-200 flex items-center justify-between pt-6 px-6">
+					<h2 class="font-semibold text-gray-900 text-lg">Import Configuration</h2>
+					<button class="close" id="closeImportModalBtn">×</button>
+				</div>
+				<div class="mb-4 pt-6 px-6">
+					<label for="importFile" class="block font-medium mb-2 text-gray-900 text-sm">Select configuration file:</label>
+					<input type="file" id="importFile" class="text-sm" accept=".json">
+				</div>
+				<div class="flex gap-4 justify-end p-6">
+					<button type="button" class="btn-secondary" id="cancelImportBtn">Cancel</button>
+					<button type="button" class="btn" id="confirmImportBtn">Import</button>
+				</div>
+			</div>
+		</div>
+		<script src="options.js"></script>
+	</body>
+</html>

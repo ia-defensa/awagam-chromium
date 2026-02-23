@@ -1,0 +1,17 @@
+label,
+input,
+button {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+}
+
+a:focus,
+a:hover,
+a:active {
+	text-decoration: none;
+}

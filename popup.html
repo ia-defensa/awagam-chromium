@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>AWAGAM Control</title>
+		<link rel="stylesheet" href="setup/default.css">
+		<link rel="stylesheet" href="setup/basecoat.min.css">
+		<script src="setup/tailwind.min.js"></script>
+		<style>
+			body {
+				min-width: 300px;
+				padding: 1rem;
+			}
+
+			.status {
+				display: block;
+			}
+
+			.status.enabled {
+				background: #d1fae5;
+				color: #065f46;
+			}
+
+			.status.disabled {
+				background: #fef3c7;
+				color: #92400e;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class="font-semibold mb-2 text-gray-900 text-lg">AWAGAM</h1>
+		<div class="space-y-2">
+			<p>Block access to TLDs, domains, and URLs based on your and others' blocklists.</p>
+			<p>Loading block statistics…</p>
+		</div>
+		<div id="status" class="mb-2 mt-4">
+			✅ Blocking is enabled
+		</div>
+		<div class="mb-2">
+			<button id="toggleBtn">Disable blocking</button>
+			<div id="tempDisableSection" class="my-2">
+				<h2 class="font-semibold mb-2 text-gray-700">Quick Disable</h2>
+				<div class="flex gap-1">
+					<button class="temp-btn btn-secondary btn-sm flex-1 text-xs" data-minutes="5">5m</button>
+					<button class="temp-btn btn-secondary btn-sm flex-1 text-xs" data-minutes="15">15m</button>
+					<button class="temp-btn btn-secondary btn-sm flex-1 text-xs" data-minutes="60">1h</button>
+				</div>
+			</div>
+		</div>
+		<div id="timer" class="mb-2 text-center" style="display: none;">
+			Re-enables in: <span id="countdown"></span>
+		</div>
+		<div class="mb-4 mt-2">
+			When disabled, all blocked sites become accessible and link highlighting is removed.
+		</div>
+		<div class="border-gray-200 text-center">
+			<button class="btn-primary w-full" id="manageBlocklistsBtn">Manage blocklists</button>
+		</div>
+		<script src="popup.js"></script>
+	</body>
+</html>

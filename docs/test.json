@@ -1,0 +1,47 @@
+{
+  "domains": {
+    "context": "",
+    "domains": [
+      "example.com",
+      "example.info",
+      "example.net",
+      "example.org",
+      "foo.example.it"
+    ],
+    "name": "Example and Test Sites",
+    "tlds": [],
+    "urls": []
+  },
+  "misc": {
+    "context": "",
+    "domains": [],
+    "name": "Misc",
+    "tlds": [],
+    "urls": [
+      "https://codeberg.org/j9t/awagam/raw/branch/main/docs/test.png",
+      "codeberg.org/j9t/awagam/raw/branch/main/docs/test-2.png"
+    ]
+  },
+  "tlds": {
+    "context": "",
+    "domains": [],
+    "name": "TLDs",
+    "tlds": [
+      ".example"
+    ],
+    "urls": []
+  },
+  "urls": {
+    "context": "",
+    "domains": [],
+    "name": "URLs",
+    "tlds": [],
+    "urls": [
+      "https://example.de/foo/bar",
+      "https://foo.example.fr/test",
+      "example.com/ads/*",
+      "example.com/*?affiliate=",
+      "example.com/?utm_source="
+    ]
+  }
+}

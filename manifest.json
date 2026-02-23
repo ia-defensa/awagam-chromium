@@ -1,0 +1,55 @@
+{
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "description": "Blocks access to TLDs, domains, and URLs via user-configurable blocklists.",
+  "homepage_url": "https://codeberg.org/j9t/awagam",
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "manifest_version": 3,
+  "name": "AWAGAM TLD, Domain, and URL Blocker",
+  "options_page": "options.html",
+  "permissions": [
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "alarms",
+    "tabs"
+  ],
+  "version": "3.2.0",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "blocklist.json"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
