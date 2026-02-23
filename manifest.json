@@ -22,7 +22,7 @@
     }
   ],
   "description": "Blocks access to TLDs, domains, and URLs via user-configurable blocklists.",
-  "homepage_url": "https://github.com/ia-defensa/awagam-chromium",
+  "homepage_url": "https://github.com/iadefensa/awagam-chromium",
   "host_permissions": [
     "<all_urls>"
   ],

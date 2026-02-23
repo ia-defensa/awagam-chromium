@@ -40,7 +40,7 @@ Get started by using one or more community and sample blocklists:
   - [**Israel** extended fork](https://gitlab.com/ehud48/blocklist/-/blob/main/blocklist.json?ref_type=heads) ([“raw”](https://gitlab.com/ehud48/blocklist/-/raw/main/blocklist.json)) (anonymous contribution) – blocks 3 TLDs, 163 domains, 198 URLs (as of Oct 2025)
 * [**Hate groups and far-right parties**](https://pastebin.com/jMvCL5bN) (use [“raw” URL](https://pastebin.com/raw/jMvCL5bN) for blocklist) (anonymous contribution) – blocks 0 TLDs, 18 domains, 6 URLs (as of Aug 2025)
 * [Original sample blocklists](https://github.com/j9t/awagam-sample-blocklists)
-* [**Yours?**](https://github.com/ia-defensa/awagam-chromium/pulls)
+* [**Yours?**](https://github.com/iadefensa/awagam-chromium/pulls)
 
 (Community contributions are only scanned, yet may be declined for any reason. Community blocklists are listed to provide examples, not to endorse their content. It’s on each extension user to decide what to block and, therefore, what blocklists to use.)
 
@@ -48,7 +48,7 @@ Get started by using one or more community and sample blocklists:
 
 There’s [an experimental converter](https://hell.meiert.org/awagam/) that allows to convert EasyList blocklists (Adblock, uBlock Origin) to AWAGAM format, and vice-versa. Note that these extensions do _not_ do the same thing—AdBlock and uBlock Origin are _content_ blockers, whereas AWAGAM also blocks navigating to TLDs, domains, and URLs directly.
 
-Please use this AWAGAM code repository to [report issues](https://github.com/ia-defensa/awagam-chromium/issues) as well.
+Please use this AWAGAM code repository to [report issues](https://github.com/iadefensa/awagam-chromium/issues) as well.
 
 ## Features
 
@@ -292,6 +292,6 @@ The extension provides specific error diagnostics:
 
 ## Links
 
-* [**Homepage**](https://github.com/ia-defensa/awagam-chromium)
+* [**Homepage**](https://github.com/iadefensa/awagam-chromium)
 * [**Sample blocklists**](https://github.com/j9t/awagam-sample-blocklists)
-* [**Issue reporting**](https://github.com/ia-defensa/awagam-chromium/issues)
+* [**Issue reporting**](https://github.com/iadefensa/awagam-chromium/issues)
