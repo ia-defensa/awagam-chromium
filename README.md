@@ -1,8 +1,10 @@
-# AWAGAM TLD, Domain, and URL Blocker
+# IA Defensa AWAGAM TLD, Domain, and URL Blocker
 
-A Chromium browser extension that blocks access to TLDs, domains, and URLs via user-configurable blocklists. Designed for use against actors engaged in wars, genocides, and misanthropy, but effective in blocking anything.
+A Chromium browser extension that blocks access to TLDs, domains, and URLs via user-configurable blocklists. Designed for use against actors engaged in wars, genocides, and misanthropy, but effective in blocking anything, including ads and trackers.
 
-**[Create your own blocklist](#blocklist-format) (it’s easy) or [use an existing blocklist](#blocklists)!**
+**[Create your own blocklist](#blocklist-format) (it’s easy) or [use an existing blocklist](#blocklists).**
+
+🔒 This extension saves no data. Source code access is available. For business and government use, [purchase a license](https://iadefensa.gumroad.com/). Priority support and custom options available.
 
 [![Example of example.com being blocked by AWAGAM in Opera.](example.png)](https://chromewebstore.google.com/detail/awagam/efnpgpiffjglnijemnmdkemiliiialbm)
 

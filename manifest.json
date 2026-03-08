@@ -32,7 +32,7 @@
     "128": "images/icon-128.png"
   },
   "manifest_version": 3,
-  "name": "AWAGAM TLD, Domain, and URL Blocker",
+  "name": "IA Defensa AWAGAM TLD, Domain, and URL Blocker",
   "options_page": "options.html",
   "permissions": [
     "storage",
@@ -41,7 +41,7 @@
     "alarms",
     "tabs"
   ],
-  "version": "3.2.1",
+  "version": "3.2.2",
   "web_accessible_resources": [
     {
       "resources": [
